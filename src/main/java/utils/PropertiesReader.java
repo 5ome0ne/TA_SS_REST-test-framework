@@ -2,6 +2,7 @@ package utils;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 public class PropertiesReader {
@@ -9,9 +10,8 @@ public class PropertiesReader {
     private Properties props;
 
     public PropertiesReader(String fileName) {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        String filePath = rootPath + fileName;
-        try (InputStream input = new FileInputStream(filePath)) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        try (InputStream input = classLoader.getResourceAsStream(fileName)) {
             this.props = new Properties();
             this.props.load(input);
         } catch(Exception e) {
